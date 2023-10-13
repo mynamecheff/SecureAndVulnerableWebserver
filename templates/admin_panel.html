@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}ADMIN!{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Admin Panel</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td> <!-- User ID -->
+                <td>{{ user[1] }}</td> <!-- Username -->
+                <td>{{ "Enabled" if user[3] == 1 else "Disabled" }}</td> <!-- User Status -->
+                <td>
+                    <form method="post" action="{{ url_for('enable_disable_user', user_id=user[0]) }}">
+                        <button type="submit" class="enable-disable-button">
+                            {% if user[3] == 1 %}
+                            Disable
+                            {% else %}
+                            Enable
+                            {% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+
+    <h2>Overview of Users Currently Logged In:</h2>
+<ul>
+    {% for user in logged_in_users %}
+    <li>{{ user }}</li>
+    {% endfor %}
+</ul>
+</body>
+{% endblock %}

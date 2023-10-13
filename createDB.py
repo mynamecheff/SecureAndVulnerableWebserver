@@ -10,7 +10,9 @@ def create_database():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
             username TEXT NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            is_admin INTEGER NOT NULL,
+            is_enabled INTEGER NOT NULL
         )
     ''')
 
