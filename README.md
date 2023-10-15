@@ -22,7 +22,13 @@
 - Optimize and clean up the codebase for maintainability. / Will never happen
 
 ### 7. Frontend
-- Enhance the project's frontend for improved user experience. / Valeria
+- Do stuff / Valeria
+
+### 8. QA
+-   Pretend you're an idiot using the site and find bugs / Valeria & Emil
+
+### 9. Pentesting
+-   Try to breach the website. / Albert
 
 ## Additional Security Measures
 
