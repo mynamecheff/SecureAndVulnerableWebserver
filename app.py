@@ -1,9 +1,9 @@
 import os  # For OS related operations
 import uuid  # For generating unique filenames
-from flask import Flask, render_template, request, redirect, url_for, flash, session, g
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g, abort
 # For securing the filename before storing it
 from werkzeug.utils import secure_filename
-# For handling file size limit exceeded errors
+# For handling file size limit
 from werkzeug.exceptions import RequestEntityTooLarge
 from flask_sqlalchemy import SQLAlchemy  # For database operations
 import bcrypt  # For hashing passwords
@@ -27,7 +27,7 @@ limiter = Limiter(app)
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app.config['SESSION_COOKIE_NAME'] = 'notacookie'
+app.config['SESSION_COOKIE_NAME'] = 'notacøøkie'
 app.secret_key = os.urandom(24)
 
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
@@ -41,7 +41,7 @@ db = SQLAlchemy(app)
 
 talisman = Talisman(app, content_security_policy={
     'default-src': "'self'",
-    'style-src': ["'self'", 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css', 'sha384-abc123'],
+    'style-src': ["'self'", 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css', 'sha384-HtMZLkYo+pR5/u7zCzXxMJP6QoNnQJt1qkHM0EaOPvGDIzaVZbmYr/TlvUZ/sKAg'],
     'script-src': "'self' 'unsafe-inline'",
     'frame-ancestors': "'none'"
 })
@@ -55,6 +55,16 @@ def allowed_file(filename):
 @limiter.request_filter
 def get_remote_address():
     return request.remote_addr
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def enc_error(e):
+    return render_template('500.html'), 500
 
 
 class User(db.Model):
@@ -231,6 +241,18 @@ def enable_disable_user(user_id):
     else:
         flash('Access denied. You must be an admin to access this page.')
     return redirect('/admin')
+
+# Maybe use this for honeypot?!
+def is_unsafe_path(path):
+    return any(part in path for part in ('root', 'directory', 'test'))
+
+
+@app.route('/<path:requested_path>')
+def serve_page(requested_path):
+    if is_unsafe_path(requested_path):
+        return render_template('/troll.html')
+    else:
+        abort(404)
 
 
 if __name__ == '__main__':
