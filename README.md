@@ -46,6 +46,9 @@
 ### 3. Web Server Account
 - Create a restricted account for the web server to limit potential risks. / Albert
 
+### 4. Make use of Google Authentication on root account 
+- Use Google authentication to validate privilege esaclation 
+
 
 # Security Messures Implemented
 1. **CSRF Protection (Flask-WTF)**: Protects against Cross-Site Request Forgery (CSRF) attacks by generating and verifying tokens for each form submission.

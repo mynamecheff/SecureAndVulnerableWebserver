@@ -1,34 +1,32 @@
 import os  # For OS related operations
 import uuid  # For generating unique filenames
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, abort
-# For securing the filename before storing it
-from werkzeug.utils import secure_filename
-# For handling file size limit
-from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.utils import secure_filename # For securing the filename before storing it
+from werkzeug.exceptions import RequestEntityTooLarge # For handling file size limit exceeded errors
 from flask_sqlalchemy import SQLAlchemy  # For database operations
 import bcrypt  # For hashing passwords
 from datetime import timedelta  # For session timeout
 from flask_limiter import Limiter  # For rate limiting
 import logging  # For logging -  not currently used
-from flask_wtf.csrf import CSRFProtect  # For CSRF protection
+#from flask_wtf.csrf import CSRFProtect  # For CSRF protection
 import bleach  # For sanitizing user input
 from flask_talisman import Talisman  # For CSP
 from sqlalchemy.exc import IntegrityError  # For handling duplicate usernames
 
 app = Flask(__name__)
-app.secret_key = 'securesecret!!!'
+app.secret_key = os.urandom(24)
 
 app.logger.setLevel(logging.INFO)
 app.logger.addHandler(logging.StreamHandler())
 
-csrf = CSRFProtect(app)
+#csrf = CSRFProtect(app)
 limiter = Limiter(app)
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app.config['SESSION_COOKIE_NAME'] = 'notacøøkie'
-app.secret_key = os.urandom(24)
+app.config['SESSION_COOKIE_NAME'] = os.urandom(24)
+
 
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -41,7 +39,7 @@ db = SQLAlchemy(app)
 
 talisman = Talisman(app, content_security_policy={
     'default-src': "'self'",
-    'style-src': ["'self'", 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css', 'sha384-HtMZLkYo+pR5/u7zCzXxMJP6QoNnQJt1qkHM0EaOPvGDIzaVZbmYr/TlvUZ/sKAg'],
+    'style-src': ["'self'", 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css', 'sha384-abc123'],
     'script-src': "'self' 'unsafe-inline'",
     'frame-ancestors': "'none'"
 })
