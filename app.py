@@ -1,14 +1,16 @@
 import os  # For OS related operations
 import uuid  # For generating unique filenames
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, abort
-from werkzeug.utils import secure_filename # For securing the filename before storing it
-from werkzeug.exceptions import RequestEntityTooLarge # For handling file size limit exceeded errors
+# For securing the filename before storing it
+from werkzeug.utils import secure_filename
+# For handling file size limit exceeded errors
+from werkzeug.exceptions import RequestEntityTooLarge
 from flask_sqlalchemy import SQLAlchemy  # For database operations
 import bcrypt  # For hashing passwords
 from datetime import timedelta  # For session timeout
 from flask_limiter import Limiter  # For rate limiting
 import logging  # For logging -  not currently used
-#from flask_wtf.csrf import CSRFProtect  # For CSRF protection
+# from flask_wtf.csrf import CSRFProtect  # For CSRF protection
 import bleach  # For sanitizing user input
 from flask_talisman import Talisman  # For CSP
 from sqlalchemy.exc import IntegrityError  # For handling duplicate usernames
@@ -19,16 +21,16 @@ app.secret_key = os.urandom(24)
 app.logger.setLevel(logging.INFO)
 app.logger.addHandler(logging.StreamHandler())
 
-#csrf = CSRFProtect(app)
+# csrf = CSRFProtect(app)
 limiter = Limiter(app)
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app.config['SESSION_COOKIE_NAME'] = 'SecureCOOOKIETEST' 
+app.config['SESSION_COOKIE_NAME'] = 'SecureCOOOKIETEST'
 
 
-app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.permanent_session_lifetime = timedelta(minutes=30)
 
@@ -163,31 +165,35 @@ def profile():
         if request.method == 'POST':
             if 'file' not in request.files:
                 flash('No file uploaded')
+                print("hmm  i am here")
                 return redirect(request.url)
 
             file = request.files['file']
 
             if file.filename == '':
                 flash('No selected file')
+                print("i am here")
                 return redirect(request.url)
 
             if file and allowed_file(file.filename):
-                if len(file.read()) > app.config['MAX_CONTENT_LENGTH']:
-                    flash('File size exceeds the 10 MB limit. Please upload a smaller file.')
-                    return redirect(request.url)
-                else:
-                    filename = str(uuid.uuid4()) + secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    user.profile_picture = filename
-                    db.session.commit()
-                    flash('Profile picture successfully updated')
+                # Please help me WHY Does this not work?? I am so sad. when I implement this outcommented code the file only gets uploaded as 0 bytes even though it goes into the else statement which works??!
+                # file.seek(0)
+                # if len(file.read()) > app.config['MAX_CONTENT_LENGTH']:
+                #     print("hello this file is too large!!")
+                #     flash(
+                #         'File size exceeds the 10 MB limit. Please upload a smaller file.')
+                #     return redirect(request.url)
+                # else:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                user.profile_picture = filename
+                db.session.commit()
+                print("hello this is right!")
+                flash('Profile picture successfully updated')
 
         return render_template('profile.html', user=user)
     else:
         return redirect(url_for('login'))
-
-
-
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -217,11 +223,13 @@ def load_user():
     g.user = None
     if 'username' in session:
         user = User.query.filter_by(username=session['username']).first()
+        users = User.query.all()  # Get all users
         if user:
             g.user = {
                 'username': user.username,
                 'is_admin': user.is_admin,
-                'profile_picture': user.profile_picture
+                'profile_picture': user.profile_picture,
+                'users': users
             }
 
 
@@ -246,6 +254,7 @@ def enable_disable_user(user_id):
     else:
         flash('Access denied. You must be an admin to access this page.')
     return redirect('/admin')
+
 
 # Maybe use this for honeypot?!
 def is_unsafe_path(path):

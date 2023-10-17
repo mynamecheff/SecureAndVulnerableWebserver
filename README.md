@@ -3,7 +3,7 @@
 ## General Project Enhancements
 
 ### 1. User Profile & Avatar
-- Implement user avatars for a more personalized experience. / Emil
+- Make the user profile implemented by Albert better / Emil
 
 ### 2. Logging & Error Handling
 - Implement logging, including Elasticsearch for log management. / Albert
@@ -50,8 +50,8 @@
 - Use Google authentication to validate privilege esaclation 
 
 
-# Security Messures Implemented - WIP
-1. **CSRF Protection (Flask-WTF)**: Protects against Cross-Site Request Forgery (CSRF) attacks by generating and verifying tokens for each form submission.
+# Security Messures Implemented 
+1. **CSRF Protection (Flask-WTF) - WIP**: Protects against Cross-Site Request Forgery (CSRF) attacks by generating and verifying tokens for each form submission.
 
 2. **Rate Limiting with Flask Limiter**: Limits the number of requests a client can make in a given timeframe, guarding against abuse and denial-of-service attacks.
 

@@ -3,6 +3,7 @@
 {% block title %}ADMIN!{% endblock %}
 
 {% block content %}
+
 <body>
     <h1>Admin Panel</h1>
     <table>
@@ -17,13 +18,13 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <td>{{ user[0] }}</td> <!-- User ID -->
-                <td>{{ user[1] }}</td> <!-- Username -->
-                <td>{{ "Enabled" if user[3] == 1 else "Disabled" }}</td> <!-- User Status -->
+                <td>{{ user.id }}</td> <!-- User ID -->
+                <td>{{ user.username }}</td> <!-- Username -->
+                <td>{{ "Enabled" if user.is_enabled else "Disabled" }}</td> <!-- User Status -->
                 <td>
-                    <form method="post" action="{{ url_for('enable_disable_user', user_id=user[0]) }}">
+                    <form method="post" action="{{ url_for('enable_disable_user', user_id=user.id) }}">
                         <button type="submit" class="enable-disable-button">
-                            {% if user[3] == 1 %}
+                            {% if user.is_enabled %}
                             Disable
                             {% else %}
                             Enable
@@ -38,10 +39,10 @@
     <a href="{{ url_for('home') }}">Back to Home</a>
 
     <h2>Overview of Users Currently Logged In:</h2>
-<ul>
-    {% for user in logged_in_users %}
-    <li>{{ user }}</li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for user in logged_in_users %}
+        <li>{{ user }}</li>
+        {% endfor %}
+    </ul>
 </body>
 {% endblock %}

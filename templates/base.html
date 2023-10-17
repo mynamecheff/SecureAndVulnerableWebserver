@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Flask App{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" integrity="sha384-HtMZLkYo+pR5/u7zCzXxMJP6QoNnQJt1qkHM0EaOPvGDIzaVZbmYr/TlvUZ/sKAg" crossorigin="anonymous"></head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+        integrity="sha384-HtMZLkYo+pR5/u7zCzXxMJP6QoNnQJt1qkHM0EaOPvGDIzaVZbmYr/TlvUZ/sKAg" crossorigin="anonymous">
+</head>
+
 <body class="bg-gray-100">
     <header class="bg-blue-500 text-white p-4">
         <nav class="container mx-auto flex justify-between items-center">
@@ -14,20 +18,20 @@
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('register') }}">Register</a></li>
                 {% if 'username' in session %}
-                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                    <li><a href="/admin">Admin</a></li>
-                    {% if g.user %}
-                        <!-- Display user's profile picture if user is logged in -->
-                        <li>
-                            <img src="{{ url_for('static', filename='static/uploads/' + g.user.profile_picture) }}" alt="Profile Picture" class="h-10 w-10 rounded-full">
-                        </li>
-                    {% else %}
-                        <!-- Display a placeholder image if the user has no profile picture -->
-                        <li>
-                            <img src="{{ url_for('static', filename='static/default.jpg') }}" alt="Profile Picture" class="h-10 w-10 rounded-full">
-                        </li>
-                    {% endif %}
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/admin">Admin</a></li>
+                <li>
+                    <img src="{{ url_for('static', filename='uploads/' + g.user.profile_picture) }}"
+                        alt="Profile Picture" class="h-32 w-32 rounded-full">
+                </li>
+                <li>
+                    <ul>
+                        {% for user in g.user.users %}
+                        <li>{{ user.username }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
                 {% endif %}
             </ul>
         </nav>
@@ -36,4 +40,5 @@
         {% block content %}{% endblock %}
     </main>
 </body>
+
 </html>
