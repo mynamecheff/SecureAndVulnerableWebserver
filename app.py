@@ -22,10 +22,10 @@ app.logger.addHandler(logging.StreamHandler())
 #csrf = CSRFProtect(app)
 limiter = Limiter(app)
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app.config['SESSION_COOKIE_NAME'] = os.urandom(24)
+app.config['SESSION_COOKIE_NAME'] = 'SecureCOOOKIETEST' 
 
 
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
@@ -72,6 +72,7 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     is_enabled = db.Column(db.Boolean, default=True)
+    profile_picture = db.Column(db.String(255), default='default.jpg')
 
 
 def is_valid_username(username):
@@ -156,6 +157,9 @@ def login():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'username' in session:
+        username = session['username']
+        user = User.query.filter_by(username=username).first()
+
         if request.method == 'POST':
             if 'file' not in request.files:
                 flash('No file uploaded')
@@ -169,19 +173,21 @@ def profile():
 
             if file and allowed_file(file.filename):
                 if len(file.read()) > app.config['MAX_CONTENT_LENGTH']:
-                    flash(
-                        'File size exceeds the 10 MB limit. Please upload a smaller file.')
+                    flash('File size exceeds the 10 MB limit. Please upload a smaller file.')
                     return redirect(request.url)
                 else:
-                    filename = str(uuid.uuid4()) + \
-                        secure_filename(file.filename)
-                    file.save(os.path.join(
-                        app.config['UPLOAD_FOLDER'], filename))
-                    flash('File successfully uploaded')
+                    filename = str(uuid.uuid4()) + secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    user.profile_picture = filename
+                    db.session.commit()
+                    flash('Profile picture successfully updated')
 
-        return render_template('profile.html')
+        return render_template('profile.html', user=user)
     else:
         return redirect(url_for('login'))
+
+
+
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -214,7 +220,8 @@ def load_user():
         if user:
             g.user = {
                 'username': user.username,
-                'is_admin': user.is_admin
+                'is_admin': user.is_admin,
+                'profile_picture': user.profile_picture
             }
 
 

@@ -50,7 +50,7 @@
 - Use Google authentication to validate privilege esaclation 
 
 
-# Security Messures Implemented
+# Security Messures Implemented - WIP
 1. **CSRF Protection (Flask-WTF)**: Protects against Cross-Site Request Forgery (CSRF) attacks by generating and verifying tokens for each form submission.
 
 2. **Rate Limiting with Flask Limiter**: Limits the number of requests a client can make in a given timeframe, guarding against abuse and denial-of-service attacks.

@@ -4,9 +4,16 @@
 
 {% block content %}
     <h1>Profile</h1>
+    {% if user %}
+        <!-- Display the user's current profile picture if it exists -->
+        <img src="{{ url_for('static', filename='uploads/' + user.profile_picture) }}" alt="Profile Picture" class="h-32 w-32 rounded-full">
+    {% else %}
+        <!-- Display a placeholder image if the user has no profile picture -->
+        <img src="{{ url_for('static', filename='default.jpg') }}" alt="Profile Picture" class="h-32 w-32 rounded-full">
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         <label for="file">Upload Avatar</label>
         <input type="file" name="file" accept="image/*"><br>
-       <input type="submit" value="Upload">
+        <input type="submit" value="Upload">
     </form>
 {% endblock %}
