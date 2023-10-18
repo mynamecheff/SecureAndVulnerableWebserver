@@ -74,3 +74,28 @@
 11. **Database Query Sanitization**: Protects against SQL injection attacks by escaping and quoting parameters in database queries using SQLAlchemy's query builder.
 
 12. **Error Handling**: Implements error handling for common errors such as 404 and 500, enhancing the user experience and avoiding sensitive information exposure.
+
+
+# Vuln App Features
+
+1. **HTML Injection**: Vulnerable to HTML Injection, allowing an attacker to inject malicious code into web pages.
+
+2. **XSS (Cross-Site Scripting)**: Susceptible to Cross-Site Scripting attacks, where untrusted input can be executed as code in a user's browser.
+
+3. **SSTI (Server-Side Template Injection)**: Prone to Server-Side Template Injection, enabling attackers to manipulate server-side templates.
+
+4. **SQL Injection**: Vulnerable to SQL Injection, which allows attackers to execute arbitrary SQL queries on the database.
+
+5. **Information Disclosure**: Leaks sensitive information or error messages that could aid attackers.
+
+6. **Command Injection**: Exposes vulnerabilities to Command Injection, enabling malicious execution of arbitrary commands.
+
+7. **Brute Force**: Lacks protection against Brute Force attacks on user accounts and authentication mechanisms.
+
+8. **Deserialization**: Vulnerable to Deserialization attacks, which can lead to remote code execution.
+
+9. **Broken Authentication**: Suffers from Broken Authentication, making it easier for attackers to compromise user accounts.
+
+10. **DoS (Denial of Service)**: Susceptible to Denial of Service attacks, impacting service availability.
+
+11. **File Upload**: Allows file uploads without proper validation, posing a risk for malicious file uploads and potential attacks.
