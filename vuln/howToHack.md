@@ -1,12 +1,4 @@
-# Python Source Code Analysis
-
-You can access vulnerable web applications written in Python from the links below.
-
-[OWASP Vulnerable Flask App](https://owasp.org/www-project-vulnerable-flask-app/)
-
-[Vulnerable Flask App](https://github.com/anil-yelken/Vulnerable-Flask-App)
-
-[Vulnerable SOAP Service](https://github.com/anil-yelken/Vulnerable-Soap-Service)
+# Python vuln app Analysis
 
 ## SQL Injection
 
