@@ -6,7 +6,7 @@ import sqlite3
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER']="/home/kali/Desktop/upload"
+app.config['UPLOAD_FOLDER']="/home/"
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
 @app.route("/")
