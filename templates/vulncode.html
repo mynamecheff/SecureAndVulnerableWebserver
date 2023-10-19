@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}Python Vulnerability Analysis{% endblock %}
+
+{% block content %}
+
+<div class="bg-white rounded shadow p-4">
+
+    <!-- Link To Vulnerable Server Button -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Link To Vulnerable Server</h2>
+        <div class="p-4 bg-blue-500 rounded-lg text-center text-white">
+            <a href="{{ url_for('linkserver') }}" target="_blank" class="text-lg font-semibold hover:underline">Link To Vulnerable
+                Server</a>
+        </div>
+    </div>
+    <h1 class="text-3xl font-bold mb-4">Python Vulnerability Analysis</h1>
+
+    <!-- SQL Injection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">SQL Injection</h2>
+        <p class="mb-4">
+            The SQL injection vulnerability occurred because the parametric query was not used:
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+        <code class="bg-gray-100 p-2 block">
+@app.route("/user/&lt;string:name&gt;")
+    def search_user(name):
+        con = sqlite3.connect("test.db")
+        cur = con.cursor()
+        cur.execute("select * from test where username = '%s'" % name)
+        data = str(cur.fetchall())
+        con.close()
+        import logging
+        logging.basicConfig(filename="restapi.log", filemode='w', level=logging.DEBUG)
+        logging.debug(data)
+        return jsonify(data=data),200            </code>
+    </pre>
+
+    </div>
+
+    <!-- XSS/HTML Injection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">XSS/HTML Injection</h2>
+        <p class="mb-4">
+            XSS and HTML Injection vulnerability occurs as a result of screen suppression by combining the output with
+            the "Welcome" statement without input control.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/welcome2/&lt;string:name&gt;")
+def welcome2(name):
+    data = "Welcome " + name
+    return data
+                </code>
+            </pre>
+    </div>
+
+    <!-- SSTI -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">SSTI</h2>
+        <p class="mb-4">
+            The SSTI vulnerability occurred because it did nt check the input.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/welcome2/&lt;string:name&gt;")
+def welcome2(name):
+    data = "Welcome " + name
+    return data
+                </code>
+            </pre>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/hello")
+def hello_ssti():
+    if request.args.get('name'):
+        name = request args.get('name')
+        template = {name}
+
+        return render_template_string(template)
+                </code>
+            </pre>
+    </div>
+
+    <!-- Command Injection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Command Injection</h2>
+        <p class="mb-4">
+            The input received from the user is run with the subprocess module
+            without any control.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/get_users")
+def get_users():
+    try:
+        hostname = request.args.get('hostname')
+        command = "dig " + hostname
+        data = subprocess.check_output(command, shell=True)
+        return data
+    except:
+        data = str(hostname) + " username didn't found"
+        return data
+                </code>
+            </pre>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+    @rpc( _returns=String)
+    def get_log(ctx):
+        try:
+            command="cat soap_server.log"
+            data=subprocess.check_output(command,shell=True)
+            return(str(data))
+        except:
+            return("Command didn't run")
+                </code>
+            </pre>
+    </div>
+
+    <!-- Information Disclosure -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Information Disclosure</h2>
+        <p class="mb-4">
+            Since every transaction made in the application is logged, critical information will occur in the logs.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/get_log/")
+def get_log():
+    try:
+        command="cat restapi.log"
+        data=subprocess.check_output(command,shell=True)
+        return data
+    except:
+        pass
+                </code>
+            </pre>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+    @rpc( _returns=String)
+    def get_log(ctx):
+        try:
+            command="cat soap_server.log"
+            data=subprocess.check_output(command,shell=True)
+            return(str(data))
+        except:
+            return("Command didn't run")
+                </code>
+            </pre>
+    </div>
+
+    <!-- LFI -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">LFI</h2>
+        <p class="mb-4">
+            Since the control of the input received with the filename parameter with the GET method is not provided, the
+            files in the system are read, thus LFI vulnerability occurs.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/read_file")
+def read_file():
+    filename = request.args.get('filename')
+    file = open(filename, "r")
+    data = file.read()
+    file.close()
+    return jsonify(data=data),200
+                </code>
+            </pre>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+    @rpc(String, _returns=String)
+    def read_file(ctx,file):
+        file = open(file, "r")
+        data = file.read()
+        file.close()
+        return(data)
+                </code>
+            </pre>
+    </div>
+
+    <!-- Deserialization -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Deserialization</h2>
+        <p class="mb-4">
+            For deserialization vulnerability with Python, pickle.loads statement can be searched in the source code.
+        </p>
+        <code class="bg-gray-100 p-2 block">
+                data=pickle.loads(received_data)
+            </code>
+    </div>
+
+    <!-- DOS -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">DOS</h2>
+        <p class="mb-4">
+            DOS vulnerability occurs as a result of searching the username and password information obtained from the
+            user with the GET method, with regex.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route("/user_pass_control")
+def user_pass_control():
+    import re
+    username=request.form.get("username")
+    password=request.form.get("password")
+    if re.search(username,password):
+        return jsonify(data="Password include username"), 200
+    else:
+        return jsonify(data="Password doesn't include username"), 200
+                </code>
+            </pre>
+    </div>
+
+    <!-- File Upload -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">File Upload</h2>
+        <p class="mb-4">
+            Since the file received from the user does not have size, extension, Content-Type control, the selected file
+            is uploaded directly to the system.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route('/upload', methods = ['GET','POST'])
+def uploadfile():
+   import os
+   if request.method == 'POST':
+      f = request.files['file']
+      filename=secure_filename(f.filename)
+      f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      return 'File uploaded successfully'
+   else:
+      return page
+            </pre>
+    </div>
+
+    <!-- Improper Output Neutralization for Logs -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Improper Output Neutralization for Logs</h2>
+        <p class="mb-4">
+            With the Improper Output Neutralization for Logs vulnerability, the attacker can understand that any data
+            can be written to the logs and can inject malicious code or cause the logs to be displayed incorrectly.
+        </p>
+        <pre class="bg-gray-100 p-2 block">
+                <code>
+@app.route('/logs')
+def ImproperOutputNeutralizationforLogs():
+    data = request.args.get('data')
+    import logging
+    logging.basicConfig(filename="restapi.log", filemode='w', level=logging.DEBUG)
+    logging.debug(data)
+    return jsonify(data="Logging ok"), 200
+                </code>
+            </pre>
+    </div>
+</div>
+{% endblock %}

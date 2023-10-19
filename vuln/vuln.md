@@ -19,7 +19,7 @@ def welcome2(name):
 
 ## SSTI
 
-The SSTI vulnerability occurred because the person did not check the input in the template he wrote:
+The SSTI vulnerability occurred because it did not check the input.
 
 ```python
 @app.route("/welcome2/<string:name>")
@@ -43,7 +43,7 @@ def hello_ssti():
     
 ## Command Injection
 
-In the command injection vulnerability, the input received from the user is run with the subprocess module without any control.
+The input received from the user is run with the subprocess module without any control.
 
 ```python
 @app.route("/get_users")

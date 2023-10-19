@@ -21,16 +21,11 @@
                 <li><a href="{{ url_for('profile') }}">Profile</a></li>
                 <li><a href="/logout">Logout</a></li>
                 <li><a href="/admin">Admin</a></li>
+                <li><a href= "/code">Vulnerable Server Code</a></li>
+                <li><a href= "/solution">Solution to Vulnerable Server</a></li>
                 <li>
                     <img src="{{ url_for('static', filename='uploads/' + g.user.profile_picture) }}"
                         alt="Profile Picture" class="h-32 w-32 rounded-full">
-                </li>
-                <li>
-                    <ul>
-                        {% for user in g.user.users %}
-                        <li>{{ user.username }}</li>
-                        {% endfor %}
-                    </ul>
                 </li>
                 {% endif %}
             </ul>

@@ -47,7 +47,7 @@
 - Create a restricted account for the web server to limit potential risks. / Albert
 
 ### 4. Make use of Google Authentication on root account 
-- Use Google authentication to validate privilege esaclation 
+- Use Google authentication to validate privilege esaclation / Albert
 
 
 # Security Messures Implemented 

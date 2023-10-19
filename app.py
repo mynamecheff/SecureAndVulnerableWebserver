@@ -94,9 +94,26 @@ def is_valid_password(password):
     return False
 
 
+# link to other vuln server!
+@app.route('/linkserver')
+def linkserver():
+    server_b_url = "http://127.0.0.1:8081/"
+    return redirect(server_b_url)
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
+
+
+@app.route('/code')
+def hack():
+    return render_template('vulncode.html')
+
+
+@app.route('/solution')
+def soltion():
+    return render_template('vulnsolution.html')
 
 
 @limiter.limit("5 per minute", key_func=get_remote_address)

