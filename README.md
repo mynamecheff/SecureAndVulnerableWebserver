@@ -99,3 +99,9 @@
 10. **DoS (Denial of Service)**: Susceptible to Denial of Service attacks, impacting service availability.
 
 11. **File Upload**: Allows file uploads without proper validation, posing a risk for malicious file uploads and potential attacks.
+
+
+# gitlab commands
+- git add "filename" / .
+- git commit -m "msg"
+- git push

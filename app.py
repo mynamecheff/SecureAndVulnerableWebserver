@@ -14,6 +14,7 @@ import logging  # For logging -  not currently used
 import bleach  # For sanitizing user input
 from flask_talisman import Talisman  # For CSP
 from sqlalchemy.exc import IntegrityError  # For handling duplicate usernames
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -21,7 +22,7 @@ app.secret_key = os.urandom(24)
 app.logger.setLevel(logging.INFO)
 app.logger.addHandler(logging.StreamHandler())
 
-# csrf = CSRFProtect(app)
+#csrf = CSRFProtect(app)
 limiter = Limiter(app)
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -201,7 +202,7 @@ def profile():
                 #         'File size exceeds the 10 MB limit. Please upload a smaller file.')
                 #     return redirect(request.url)
                 # else:
-                filename = secure_filename(file.filename)
+                filename = str(uuid.uuid4()) + secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 user.profile_picture = filename
                 db.session.commit()

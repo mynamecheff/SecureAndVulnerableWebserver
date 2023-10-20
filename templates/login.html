@@ -5,10 +5,14 @@
 {% block content %}
 <h1>Login</h1>
 <form method="POST">
-    <label for="username">Username</label>
-    <input type="text" name="username" required><br>
-    <label for="password">Password</label>
-    <input type="password" name="password" required><br>
-    <input type="submit" value="Login">
+    <div class="sm:col-span-4 mt-2"></div>
+        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+        <input type="text" name="username" required><br>
+    </div>
+    <div class="sm:col-span-4 mt-2">
+        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+        <input type="password" name="password" required><br>
+    </div>
+    <button type="submit" value="Login" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Login</button>
 </form>
-{% endblock %}
+{% endblock %}  
