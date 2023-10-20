@@ -1,6 +1,6 @@
 from app import app, User
 
-user_id = 3
+user_id = 4
 
 db = app.extensions['sqlalchemy']
 
