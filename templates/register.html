@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<body>
+<!-- <body>
     <div class="container mx-auto mt-4">
         <h1 class="text-2xl mb-4">User Registration</h1>
         <form method="POST" action="{{ url_for('register') }}">
@@ -24,5 +24,34 @@
         </form>
         <p class="mt-4">Already have an account? <a href="{{ url_for('login') }}" class="text-blue-500">Log in</a></p>
     </div>
-</body>
+</body> -->
+
+<div class="flex items-center justify-center h-screen">
+    <div class="bg-white p-6 rounded shadow-md w-96">
+        <h1 class="text-2xl font-semibold mb-4">Register</h1>
+        <form method="POST" action="{{ url_for('register') }}">
+
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-semibold">Username</label>
+                <input type="text" id="username" name="username"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                >
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 font-semibold">Password</label>
+                <input type="password" id="password" name="password"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                >
+            </div>
+            <div class="mb-4">
+                <button type="submit"
+                        class="w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                >Register
+                </button>
+            </div>
+        </form>
+        <p class="mt-4">Already have an account? <a href="{{ url_for('login') }}" class="text-blue-500">Log in</a></p>
+    </div>
+</div>
+
 {% endblock %}
