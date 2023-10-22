@@ -1,9 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}FLASK APP"£!!!{% endblock %}
+{% block title %}Casino Royal{% endblock %}
 
 {% block content %}
-    <h1>THIS IS A FLASK APP!!!!"£"!£!"$!"£"!$:::</h1>
-    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"  </p>
-    <p><a href="{{ url_for('login') }}">Login</a> or <a href="{{ url_for('register') }}">Register</a> to get started.</p>
+    
+    <main class="container mx-auto p-4">
+        <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 rounded-lg shadow-md text-white">
+            <h2 class="text-4xl font-extrabold mb-4">Welcome to Casino Royal</h2>
+            <p class="text-lg mb-4">Experience the thrill of gambling in our world-class online casino. Play a wide variety of games, take advantage of our promotions, and enjoy the ultimate gaming experience.</p>
+            <p class="text-lg mb-4">Join us today and get ready to win big!</p>
+            <div class="bg-white rounded-lg p-6 shadow-md text-gray-700">
+                <div>
+                <h3 class="text-2xl font-extrabold mb-4">Why Choose Casino Royal?</h3>
+                <ul class="list-disc pl-6 mb-4">
+                    <li class="text-lg">A wide selection of exciting casino games.</li>
+                    <li class="text-lg">Generous promotions and bonuses for all players.</li>
+                    <li class="text-lg">A secure and fair gaming environment for your peace of mind.</li>
+                    <li class="text-lg">24/7 customer support to assist you anytime.</li>
+                </ul>
+                <p class="text-lg">Join us now and experience the best in online gambling!</p>
+            </div>
+            <!-- <div class="inline-block">
+                <img src="{{ url_for('static', filename='images/winning.jpeg') }}" alt="Win at Casino Royal" class="w-full rounded-lg shadow-lg mt-4">
+            </div> -->
+            </div>
+        </div>
+        <p class="text-black text-lg mt-4">New here? <a class="text-blue-500" href="{{ url_for('register') }}">Register now</a> to get started!</p>
+    </main>
+    
 {% endblock %}
