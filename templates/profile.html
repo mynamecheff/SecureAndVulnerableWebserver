@@ -3,16 +3,22 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<h1>Profile</h1>
-{% if user %}
-<img src="{{ url_for('static', filename='uploads/' + user.profile_picture) }}" alt="Profile Picture"
-    class="h-32 w-32 rounded-full">
-{% else %}
-<img src="{{ url_for('static', filename='default.jpg') }}" alt="Profile Picture" class="h-32 w-32 rounded-full">
-{% endif %}
-<form method="POST" enctype="multipart/form-data">
-    <label for="file">Upload Avatar</label>
-    <input type="file" name="file" accept="image/*"><br>
-    <input type="submit" value="Upload">
-</form>
+
+
+<main class="container mx-auto p-4">
+    <h1 class="text-3xl font-extrabold text-black mb-4">Profile</h1>
+    {% if user %}
+    <img src="{{ url_for('static', filename='uploads/' + user.profile_picture) }}" alt="Profile Picture"
+        class="h-32 w-32 rounded-full mb-4">
+    {% else %}
+    <img src="{{ url_for('static', filename='default.jpg') }}" alt="Profile Picture" class="h-32 w-32 rounded-full mb-4">
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        <label for="file" class="block text-black font-semibold">Upload Avatar</label>
+        <input type="file" name="file" accept="image/*" class="mb-4">
+        <input type="submit" value="Upload"
+            class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring focus:border-yellow-600"
+        >
+    </form>
+</main>
 {% endblock %}

@@ -5,32 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Flask App{% endblock %}</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-        integrity="sha384-HtMZLkYo+pR5/u7zCzXxMJP6QoNnQJt1qkHM0EaOPvGDIzaVZbmYr/TlvUZ/sKAg" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='public/styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+        integrity="sha384-HtMZLkYo+pR5/u7zCzXxMJP6QoNnQJt1qkHM0EaOPvGDIzaVZbmYr/TlvUZ/sKAg" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='public/styles.css') }}"> -->
 </head>
 
-<body class="bg-cover bg-center relative" style="background-image: url('{{ url_for('static', filename='images/roulette.png') }}')">
-    <div class="bg-cover bg-center relative" style="background-image: url('{{ url_for('static', filename='images/roulette.png') }}')">
-    <header class="bg-blue-900 text-white py-10">
+<body class="bg-cover bg-center relative">
+    
+    <header class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white py-6 flex items-center">
         <nav class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">CASINO</h1>
-            <ul class="space-x-7">
-                <li class="inline-block"><a href="{{ url_for('home') }}">Home</a></li>
+            <h1 class="text-3xl font-extrabold text-black">CASINO ROYAL</h1>
+            <ul class="space-x-7 items-center">
+                <li class="inline-block text-lg font-semibold"><a href="{{ url_for('home') }}">Home</a></li>
                 {% if 'username' not in session %}
-                <li class="inline-block"><a href="{{ url_for('login') }}">Login</a></li>
-                <li class="inline-block"><a href="{{ url_for('register') }}">Register</a></li>
+                <li class="inline-block text-lg font-semibold"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="inline-block text-lg font-semibold"><a href="{{ url_for('register') }}">Register</a></li>
                 {% endif %}
                 {% if 'username' in session %}
-                <li class="inline-block"><a href="{{ url_for('profile') }}">Profile</a></li>
-                <li class="inline-block"><a href="/logout">Logout</a></li>
-                <li class="inline-block"><a href="/admin">Admin</a></li>
-                <li class="inline-block"><a href= "/code">Vulnerable Server Code</a></li>
-                <li class="inline-block"><a href= "/solution">Solution to Vulnerable Server</a></li>
-                <li>
+                <li class="inline-block text-lg font-semibold"><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li class="inline-block text-lg font-semibold"><a href="/logout">Logout</a></li>
+                <li class="inline-block text-lg font-semibold"><a href="/admin">Admin</a></li>
+                <li class="inline-block text-lg font-semibold"><a href="/code">Vulnerable Server Code</a></li>
+                <li class="inline-block text-lg font-semibold"><a href="/solution">Solution to Vulnerable Server</a></li>
+                <!-- <li class="inline-block">
                     <img src="{{ url_for('static', filename='uploads/' + g.user.profile_picture) }}"
-                        alt="Profile Picture" class="h-32 w-32 rounded-full">
-                </li>
+                        alt="Profile Picture" class="h-14 w-14 rounded-full">
+                </li> -->
                 {% endif %}
             </ul>
         </nav>
@@ -38,7 +38,6 @@
     <main class="container mx-auto p-4">
         {% block content %}{% endblock %}
     </main>
-</div>
 </body>
 
 </html>
