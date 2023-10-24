@@ -31,7 +31,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['SESSION_COOKIE_NAME'] = 'SecureCOOOKIETEST'
 
 
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  # Maximum upload size set to 2MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.permanent_session_lifetime = timedelta(minutes=30)
 
@@ -51,7 +51,6 @@ talisman = Talisman(app, content_security_policy={
 # Function to check if the file has an allowed extension
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @limiter.request_filter
 def get_remote_address():
@@ -181,33 +180,25 @@ def profile():
         user = User.query.filter_by(username=username).first()
 
         if request.method == 'POST':
-            if 'file' not in request.files:
-                flash('No file uploaded')
-                print("hmm  i am here")
-                return redirect(request.url)
+            #if 'file' in request.files:
+                #flash('No file uploaded')
+                #print("hmm  i am here")
+                #return redirect(request.url)
 
             file = request.files['file']
 
-            if file.filename == '':
-                flash('No selected file')
+            if file.filename != '':
+                #flash('No selected file')
                 print("i am here")
-                return redirect(request.url)
+                #return redirect(request.url)
 
-            if file and allowed_file(file.filename):
-                # Please help me WHY Does this not work?? I am so sad. when I implement this outcommented code the file only gets uploaded as 0 bytes even though it goes into the else statement which works??!
-                # file.seek(0)
-                # if len(file.read()) > app.config['MAX_CONTENT_LENGTH']:
-                #     print("hello this file is too large!!")
-                #     flash(
-                #         'File size exceeds the 10 MB limit. Please upload a smaller file.')
-                #     return redirect(request.url)
-                # else:
-                filename = str(uuid.uuid4()) + secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                user.profile_picture = filename
-                db.session.commit()
-                print("hello this is right!")
-                flash('Profile picture successfully updated')
+                if allowed_file(file.filename):
+                    filename = str(uuid.uuid4()) + secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    user.profile_picture = filename
+                    db.session.commit()
+                    print("hello this is right!")
+                    flash('Profile picture successfully updated')
 
         return render_template('profile.html', user=user)
     else:
