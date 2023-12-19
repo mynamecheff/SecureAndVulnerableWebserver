@@ -1,53 +1,37 @@
-# Project Todo List
+# Project Functions
 
 ## General Project Enhancements
 
 ### 1. User Profile & Avatar
-- Make the user profile implemented by Albert better / Emil
 
 ### 2. Logging & Error Handling
-- Implement logging, including Elasticsearch for log management. / Albert
 
 ### 3. Resilience
-- Enhance database resilience to ensure data integrity and availability. - WIP / Albert
 
 ### 4. Nginx Setup
-- Configure Nginx for web server with HTTPS support. / Albert
 
 ### 5. User Account Management
-- Implement user account features such as forgot password, change password, and account deletion. / Valeria or Emil
-- Enhance the user experience. / Valeria
+
 
 ### 6. Code Cleanup
-- Optimize and clean up the codebase for maintainability. / Will never happen
 
 ### 7. Frontend
-- Do stuff / Valeria
 
 ### 8. QA
--   Pretend you're an idiot using the site and find bugs / Valeria & Emil
-
-### 9. Pentesting
--   Try to breach the website. / Albert
 
 ## Additional Security Measures
 
 ### 1. Firewall
-- Set up a firewall to protect against network threats. / Albert
 
 ## Future Implementations
 
 ### 1. Anti-Virus (AV)
-- Explore integration with AV solutions like pyclamd/clamav for file scanning. / Albert
 
 ### 2. Database Permissions
-- Enhance database security by restricting permissions (e.g., chmod 600). / Albert
 
 ### 3. Web Server Account
-- Create a restricted account for the web server to limit potential risks. / Albert
 
 ### 4. Make use of Google Authentication on root account 
-- Use Google authentication to validate privilege esaclation / Albert
 
 
 # Security Messures Implemented 
@@ -99,9 +83,3 @@
 10. **DoS (Denial of Service)**: Susceptible to Denial of Service attacks, impacting service availability.
 
 11. **File Upload**: Allows file uploads without proper validation, posing a risk for malicious file uploads and potential attacks.
-
-
-# gitlab commands
-- git add "filename" / .
-- git commit -m "msg"
-- git push
